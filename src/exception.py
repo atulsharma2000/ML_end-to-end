@@ -1,5 +1,4 @@
 import sys
-
 # custom exception hangling
 
 def error_message_details(error,error_details:sys): #error details is present in sys
