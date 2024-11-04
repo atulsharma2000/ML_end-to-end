@@ -38,8 +38,9 @@ def predict_datapoint():
         print("Mid Prediction")
         results=predict_pipeline.predict(pred_df)
         print("after Prediction")
-        return render_template('home.html',results=results[0])
-    
+        return render_template('home.html',results=results[0]) # returning the first element of the list , cuz reuslt  is a list of 1 element
+
+
 
 if __name__=="__main__":
     app.run(host="0.0.0.0")        
