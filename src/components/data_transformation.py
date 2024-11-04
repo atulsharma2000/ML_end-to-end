@@ -12,6 +12,8 @@ from src.exception import CustomException
 from src.logger import logging
 import os
 
+from src.utils import save_object
+
 @dataclass
 class DataTransformationConfig:
     preprocessor_obj_file_path=os.path.join('artifacts',"proprocessor.pkl")
@@ -53,8 +55,8 @@ class DataTransformation:
 
             )
 
-            logging.info(f"Categorical columns: {categorical_columns}")
-            logging.info(f"Numerical columns: {numerical_columns}")
+            logging.info(f"Categorical columns prcoessing done: {categorical_columns}")
+            logging.info(f"Numerical columns prcoessing done: {numerical_columns}")
 
             preprocessor=ColumnTransformer(
                 [
@@ -71,6 +73,7 @@ class DataTransformation:
         except Exception as e:
             raise CustomException(e,sys)
         
+    # getting these parameters from data ingestion
     def initiate_data_transformation(self,train_path,test_path):
 
         try:
@@ -92,9 +95,7 @@ class DataTransformation:
             input_feature_test_df=test_df.drop(columns=[target_column_name],axis=1)
             target_feature_test_df=test_df[target_column_name]
 
-            logging.info(
-                f"Applying preprocessing object on training dataframe and testing dataframe."
-            )
+            logging.info(f"Applying preprocessing object on training dataframe and testing dataframe.")
 
             input_feature_train_arr=preprocessing_obj.fit_transform(input_feature_train_df)
             input_feature_test_arr=preprocessing_obj.transform(input_feature_test_df)
@@ -106,12 +107,7 @@ class DataTransformation:
 
             logging.info(f"Saved preprocessing object.")
 
-            save_object(
-
-                file_path=self.data_transformation_config.preprocessor_obj_file_path,
-                obj=preprocessing_obj
-
-            )
+            save_object(file_path=self.data_transformation_config.preprocessor_obj_file_path, obj=preprocessing_obj)
 
             return (
                 train_arr,
@@ -120,3 +116,5 @@ class DataTransformation:
             )
         except Exception as e:
             raise CustomException(e,sys)
+        
+
