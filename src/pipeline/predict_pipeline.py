@@ -25,7 +25,7 @@ class PredictPipeline:
             raise CustomException(e,sys)
 
 
-
+ 
 class CustomData:
     def __init__(  self,
         gender: str,
